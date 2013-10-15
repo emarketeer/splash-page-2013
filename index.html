@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>eMarketeer Australia | We'll be back shortly.</title>
+	<meta name="description" content="Web design &amp; development in Melbourne, Australia. Specialising in Wordpress, HTML5, front and backend development.">
+	<link href="http://fonts.googleapis.com/css?family=Ubuntu:300" rel="stylesheet">
+	<link rel="stylesheet" href="assets/css/global.min.css">
+	<script src="assets/js/jquery-1.10.2.min.js"></script>
+	<!--[if lt IE 9]>
+	<script src="assets/js/html5shiv.min.js"></script>
+	<![endif]-->
+</head>
+<body>
+	<div class="container animated invisible" id="container">
+		<aside class="logo"></aside>
+		<div class="home" id="home">
+			<h1>We're busy preparing to launch our new website.</h1>
+			<p>In the mean time, you can <a href="#" data-href="enquiry" data-parent="home" data-animation="slideOutRight" data-rel="link">send us an enquiry</a>, or <a href="#" data-href="info" data-parent="home" data-animation="slideOutRight" data-rel="link">view<br />our contact details</a>.</p>
+			<p class="text-right">eMarketeer Australia</p>
+		</div>
+		<div class="enquiry hidden animated" id="enquiry">
+			<h2>Have a question?</h2>
+			<table>
+				<tr><td>Name</td><td><input type="text" name="name" id="enquiry-name" /></td></tr>
+				<tr><td>Email</td><td><input type="text" name="email" /></td></tr>
+				<tr><td>Message</td><td><textarea name="message"></textarea></td></tr>
+				<tr><td>&nbsp;</td><td>
+					<input type="submit" class="submit" value="Send" />
+					<a class="enquiry-link" href="#" data-href="home" data-parent="enquiry" data-animation="slideOutRight" data-rel="link">← Back</a>
+					<div class="cf"></div>
+				</td></tr>
+			</table>
+		</div>
+		<div class="info hidden animated" id="info">
+			<h2>eMarketeer Australia</h2>
+			<p>Have a web design or web development idea? Give us a yell via one of the methods below.</p>
+			<p>Email: <a href="mailto:info@emarketeer.com.au">info@emarketeer.com.au</a><br />Phone: (+61) 03 9005 5648<br />Fax: (+61) 03 9801 3100</p>
+			<p><a href="https://www.facebook.com/eMarketeerAustralia">Find us on Facebook</a><br /><a href="https://twitter.com/emarketeercomau">Tweet us on Twitter</a></p>
+			<a class="enquiry-link" href="#" data-href="home" data-parent="info" data-animation="slideOutRight" data-rel="link">← Back</a>
+			<p class="text-small">eMarketeer Australia<br />ABN: 76 445 459 132, Address: 5/23 Wadhurst Drive, Boronia, VIC 3155, AU.</p>
+			<div class="cf"></div>
+		</div>
+	</div>
+<script>
+	$(window).load(function(){
+		$("#container").addClass("bounceInDown");
+		$("#container").removeClass("invisible");
+	});
+
+	$(document).ready(function(){
+		$("[data-rel=link]").click(function(e){
+			e.preventDefault();
+			var parent = $(this).attr("data-parent");
+			var animation = $(this).attr("data-animation");
+			var href = $(this).attr("data-href");
+			$("#" + parent).addClass("animated " + animation);
+
+			window.setTimeout(function(){
+				$("#" + parent).fadeOut(100);
+				$("#" + href).addClass("slideInRight");
+				$("#" + href).removeClass("hidden slideOutRight");
+				$("#" + href).show();
+			}, 500);
+
+			if ( href === "enquiry" ) {
+				window.setTimeout(function(){
+					$("#enquiry-name").focus();
+				},1600);
+			}
+
+		});
+	});
+</script>
+</body>
+</html>

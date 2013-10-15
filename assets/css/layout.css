@@ -1,0 +1,54 @@
+body {
+	overflow: hidden;
+}
+
+.container {
+	position: absolute;
+	width: 815px;
+	height: 380px;
+	margin: auto;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+}
+
+.logo {
+	float: left;
+	width: 255px;
+	height: 100%;
+	background: url("../img/emarketeer-e.png");
+	background-position: left center;
+	background-repeat: no-repeat;
+}
+
+.home {
+	margin-top: 60px;
+}
+
+table {
+	width: 550px;
+	margin-top: 30px;
+	border-style: none;
+}
+
+table td {
+	vertical-align: top;
+	padding-bottom: 7px;
+}
+
+.text-right {
+	text-align: right;
+}
+
+.invisible {
+	opacity: 0;
+}
+
+.hidden {
+	display: none;
+}
+
+.cf {
+	clear: both;
+}
