@@ -1,0 +1,9 @@
+LICENSED UNDER THE MIT LICENSE http://opensource.org/licenses/MIT
+Animate.css - https://github.com/daneden/animate.css
+HTML5Shiv.js - http://code.google.com/p/html5shiv/
+
+LICENSED UNDER THE JQUERY LICENSE https://jquery.org/license/
+jQuery, all verions - http://jquery.org
+
+LICENSED UNDER THE UBUNTU FONT LICENSE
+Ubuntu font family - http://font.ubuntu.com/ufl/ubuntu-font-licence-1.0.txt
