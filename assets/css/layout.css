@@ -22,6 +22,10 @@ body {
 	background-repeat: no-repeat;
 }
 
+.mobile-logo {
+	display: none;
+}
+
 .content {
 	float: right;
 	width: 560px;

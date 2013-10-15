@@ -14,7 +14,7 @@ if ( empty($_POST['name']) || empty($_POST['email']) || empty($_POST['message'])
 }
 
 //Set the mail information.
-$enquiry_data['name'] = stripslashes( $_POST['enquiry_name'] );
+$enquiry_data['name'] = stripslashes( $_POST['name'] );
 $enquiry_data['reply_to'] = stripslashes( $_POST['email'] );
 $enquiry_data['raw_message'] = stripslashes( $_POST['message'] );
 
