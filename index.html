@@ -10,36 +10,114 @@
 	<script src="assets/js/jquery-1.10.2.min.js"></script>
 	<!--[if lt IE 9]>
 	<script src="assets/js/html5shiv.min.js"></script>
+	<script src="assets/js/old-browser.js"></script>
 	<![endif]-->
 </head>
 <body>
 	<div class="container animated invisible" id="container">
 		<aside class="logo"></aside>
-		<div class="home" id="home">
+		<div class="content home" id="home">
 			<h1>We're busy preparing to launch our new website.</h1>
 			<p>In the mean time, you can <a href="#" data-href="enquiry" data-parent="home" data-animation="slideOutRight" data-rel="link">send us an enquiry</a>, or <a href="#" data-href="info" data-parent="home" data-animation="slideOutRight" data-rel="link">view<br />our contact details</a>.</p>
 			<p class="text-right">eMarketeer Australia</p>
 		</div>
-		<div class="enquiry hidden animated" id="enquiry">
+		<div class="content enquiry hidden animated" id="enquiry">
 			<h2>Have a question?</h2>
-			<table>
-				<tr><td>Name</td><td><input type="text" name="name" id="enquiry-name" /></td></tr>
-				<tr><td>Email</td><td><input type="text" name="email" /></td></tr>
-				<tr><td>Message</td><td><textarea name="message"></textarea></td></tr>
-				<tr><td>&nbsp;</td><td>
-					<input type="submit" class="submit" value="Send" />
-					<a class="enquiry-link" href="#" data-href="home" data-parent="enquiry" data-animation="slideOutRight" data-rel="link">← Back</a>
-					<div class="cf"></div>
-				</td></tr>
+			<table id="form-table">
+				<form action="send-enquiry.php" method="post">
+					<tr><td>Name *</td><td><input type="text" name="name" id="form-name" /></td></tr>
+					<tr><td>Email *</td><td><input type="text" name="email" id="form-email" /></td></tr>
+					<tr><td>Message</td><td><textarea name="message" id="form-message"></textarea></td></tr>
+					<tr><td>&nbsp;</td><td>
+						<input id="enquiry-submit" type="submit" class="submit" value="Send" />
+						<a class="enquiry-link" href="#" data-href="home" data-parent="enquiry" data-animation="slideOutRight" data-rel="link">← Back</a>
+						<div class="cf"></div>
+					</td></tr>
+				</form>
+				<script>
+					$(document).ready(function(){
+						$("#enquiry-submit").click(function(e){
+							e.preventDefault();
+
+							//Submit the form via Ajax.
+							var name = $("#form-name").val();
+							var email = $("#form-email").val();
+							var message = $("#form-message").val();
+
+							if ( name && email && message ) {
+								//All fields have entries.
+								//Fade to load screen.
+								$("#form-table").fadeTo(250, 0.2);
+								var jqxhr = $.post( "send-enquiry.php", {
+									name: name,
+									email: email,
+									message: message
+								})
+								.done(function( data ) {
+								    if ( data == -1 ) {
+								    	//Missing fields.
+								    	$("#form-table").fadeTo(250, 1, function(){
+								    		$("#form-table").addClass("animated shake");
+											window.setTimeout(function(){
+												$("#form-table").removeClass("animated shake");
+											},1000);
+								    	});
+								    } else if ( data == -2 ) {
+								    	//Invalid email.
+								    	$("#form-table").fadeTo(250, 1, function(){
+								    		$("#form-email").addClass("animated shake");
+											window.setTimeout(function(){
+												$("#form-email").removeClass("animated shake");
+											},1000);
+								    	});
+								    } else if ( data == -3 ) {
+								    	$("#form-table").fadeTo(250, 1);
+								    	alert("There was an unspecified server error when attempting to send your enquiry. Please email us directly.");
+								    }
+
+								    if ( data == 1 ) {
+								    	//Success.
+								    	$("#form-table").fadeTo(250, 1);
+								    	$(this).attr("data-parent", "enquiry");
+								    	$(this).attr("data-animation", "slideOutRight");
+								    	$(this).attr("data-href", "sent");
+								    	$("#form-name").val("");
+								    	$("#form-email").val("");
+								    	$("#form-message").val("");
+								    	pageTransit(this);
+								    }
+
+								})
+								.fail(function() {
+								   	alert( "An unspecified error occured." );
+								});
+
+							} else {
+								//Missing fields.
+								$("#form-table").addClass("animated shake");
+								window.setTimeout(function(){
+									$("#form-table").removeClass("animated shake");
+								},1000);
+							}
+
+						});
+					});
+				</script>
 			</table>
 		</div>
-		<div class="info hidden animated" id="info">
+		<div class="content info hidden animated" id="info">
 			<h2>eMarketeer Australia</h2>
 			<p>Have a web design or web development idea? Give us a yell via one of the methods below.</p>
-			<p>Email: <a href="mailto:info@emarketeer.com.au">info@emarketeer.com.au</a><br />Phone: (+61) 03 9005 5648<br />Fax: (+61) 03 9801 3100</p>
+			<p>Email: <a href="mailto:info@emarketeer.com.au">info@emarketeer.com.au</a><br />Phone: (+61) 03 9005 5648<br />Fax: (+61) 03 9801 3400</p>
 			<p><a href="https://www.facebook.com/eMarketeerAustralia">Find us on Facebook</a><br /><a href="https://twitter.com/emarketeercomau">Tweet us on Twitter</a></p>
 			<a class="enquiry-link" href="#" data-href="home" data-parent="info" data-animation="slideOutRight" data-rel="link">← Back</a>
 			<p class="text-small">eMarketeer Australia<br />ABN: 76 445 459 132, Address: 5/23 Wadhurst Drive, Boronia, VIC 3155, AU.</p>
+			<div class="cf"></div>
+		</div>
+		<div class="content home hidden animated" id="sent">
+			<h2>Your enquiry has been sent.</h2>
+			<p>Thank you! We'll be in contact with you as soon as possible!</p>
+			<a class="enquiry-link" href="/">← Back</a>
 			<div class="cf"></div>
 		</div>
 	</div>
@@ -52,26 +130,31 @@
 	$(document).ready(function(){
 		$("[data-rel=link]").click(function(e){
 			e.preventDefault();
-			var parent = $(this).attr("data-parent");
-			var animation = $(this).attr("data-animation");
-			var href = $(this).attr("data-href");
-			$("#" + parent).addClass("animated " + animation);
-
-			window.setTimeout(function(){
-				$("#" + parent).fadeOut(100);
-				$("#" + href).addClass("slideInRight");
-				$("#" + href).removeClass("hidden slideOutRight");
-				$("#" + href).show();
-			}, 500);
-
-			if ( href === "enquiry" ) {
-				window.setTimeout(function(){
-					$("#enquiry-name").focus();
-				},1600);
-			}
+			
+			pageTransit(this);
 
 		});
 	});
+
+	function pageTransit(objhnd) {
+		var parent = $(objhnd).attr("data-parent");
+		var animation = $(objhnd).attr("data-animation");
+		var href = $(objhnd).attr("data-href");
+		$("#" + parent).addClass("animated " + animation);
+
+		window.setTimeout(function(){
+			$("#" + parent).fadeOut(100);
+			$("#" + href).addClass("slideInRight");
+			$("#" + href).removeClass("hidden slideOutRight");
+			$("#" + href).show();
+		}, 500);
+		if ( href === "enquiry" ) {
+			window.setTimeout(function(){
+				$("#enquiry-name").focus();
+			},1600);
+		}
+	}
+
 </script>
 </body>
 </html>
